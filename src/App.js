@@ -4,15 +4,16 @@ import { Container, Typography } from "@material-ui/core";
 import 'fontsource-roboto';
 import "./App.css";
 
+import {validarCpf, validarNome, validarSenha} from './models/cadastro';
+import ValidacoesCadastro from "./contexts/Validacoes";
 class App extends Component {
   render() {
     return (
       <Container maxWidth="sm" component="article">
         <Typography variant="h3" component="h1" align="center">Formulário de Cadastro</Typography>
-        <FormularioCadastro 
-        onSubmit={whySubmit} 
-        validarCpf={validarCpf}
-        />
+        <ValidacoesCadastro.Provider value={{cpf:validarCpf, senha:validarSenha, nome:validarNome}}>
+        <FormularioCadastro onSubmit={whySubmit} />
+        </ValidacoesCadastro.Provider>
       </Container>
     );
   }
@@ -20,13 +21,6 @@ class App extends Component {
 
 function whySubmit(dados){
   console.log(dados);
-}
-function validarCpf(cpf){
-  if(cpf.length !== 11){
-    return {valido: false, texto:"CPF precisa ter 11 digitos!"}
-  }else{
-    return {valido: true, texto:""}
-  }
 }
 
 export default App;
